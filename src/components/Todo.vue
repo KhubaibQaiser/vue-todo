@@ -18,7 +18,7 @@
       v-model="newTodo"
       style="margin-right: 10px;"
       v-on:keydown.enter="addNewTodo"
-      v-on:keyup.ctrl.8="onDeleteLastTodo"
+      v-on:keyup.ctrl.8.exact="onDeleteLastTodo"
     />
     <button v-on:click="addNewTodo">Add</button>
   </div>
