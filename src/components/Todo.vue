@@ -13,7 +13,12 @@
         v-on:move-todo-down="onMoveTodoDown"
       />
     </div>
-    <input type="text" v-model="newTodo" style="margin-right: 10px;" v-on:keypress="onKeyPress" />
+    <input
+      type="text"
+      v-model="newTodo"
+      style="margin-right: 10px;"
+      v-on:keydown.enter="addNewTodo"
+    />
     <button v-on:click="addNewTodo">Add</button>
   </div>
 </template>
@@ -35,11 +40,6 @@ export default {
     }
   },
   methods: {
-    onKeyPress: function(e) {
-      if (e.code == "Enter" || e.key == "Enter") {
-        this.addNewTodo();
-      }
-    },
     addNewTodo: function() {
       if (this.newTodo.length == 0) {
         return;
