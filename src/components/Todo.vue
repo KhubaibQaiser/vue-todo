@@ -15,7 +15,7 @@
     </div>
     <input
       type="text"
-      v-model="newTodo"
+      v-model.trim="newTodo"
       style="margin-right: 10px;"
       v-on:keydown.enter="addNewTodo"
       v-on:keyup.ctrl.8.exact="onDeleteLastTodo"
