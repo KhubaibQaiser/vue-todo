@@ -3,9 +3,9 @@
     <h1>{{this.totalTodos}} Todos:</h1>
     <div>
       <TodoItem
-        v-for="todo in todos"
+        v-for="(todo, index) in todos"
         v-bind:todo="todo"
-        v-bind:key="todo"
+        v-bind:key="todo+'_'+index"
         v-on:delete-todo="onDeleteTodo"
       />
     </div>
