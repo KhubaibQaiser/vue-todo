@@ -4,9 +4,13 @@
     <div>
       <TodoItem
         v-for="(todo, index) in todos"
+        v-bind:key="todo.id"
         v-bind:todo="todo"
-        v-bind:key="todo+'_'+index"
+        v-bind:isFirst="index === 0"
+        v-bind:isLast="index === totalTodos - 1"
         v-on:delete-todo="onDeleteTodo"
+        v-on:move-todo-up="onMoveTodoUp"
+        v-on:move-todo-down="onMoveTodoDown"
       />
     </div>
     <input type="text" v-model="newTodo" style="margin-right: 10px;" v-on:keypress="onKeyPress" />
@@ -21,7 +25,8 @@ export default {
   data: function() {
     return {
       newTodo: "",
-      todos: ["Learn vue", "Start with the project"]
+      todos: [{ id: 0, title: "Wake-up" }],
+      nextTodoId: 1
     };
   },
   computed: {
@@ -39,11 +44,30 @@ export default {
       if (this.newTodo.length == 0) {
         return;
       }
-      this.todos.push(this.newTodo);
+      this.todos.push({
+        id: this.nextTodoId++,
+        title: this.newTodo
+      });
       this.newTodo = "";
     },
     onDeleteTodo: function(todo) {
-      this.todos = this.todos.filter(t => t !== todo);
+      this.todos = this.todos.filter(t => t.id !== todo.id);
+    },
+    onMoveTodoUp: function(todo) {
+      const currentIndex = this.todos.findIndex(t => t.id === todo.id);
+      if (currentIndex > 0) {
+        const newIndex = currentIndex - 1;
+        const toMove = this.todos.splice(currentIndex, 1)[0];
+        this.todos.splice(newIndex, 0, toMove);
+      }
+    },
+    onMoveTodoDown: function(todo) {
+      const currentIndex = this.todos.findIndex(t => t.id === todo.id);
+      if (currentIndex > 0) {
+        const newIndex = currentIndex + 1;
+        const toMove = this.todos.splice(currentIndex, 1)[0];
+        this.todos.splice(newIndex, 0, toMove);
+      }
     }
   },
   components: {
