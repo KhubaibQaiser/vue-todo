@@ -18,6 +18,7 @@
       v-model="newTodo"
       style="margin-right: 10px;"
       v-on:keydown.enter="addNewTodo"
+      v-on:keyup.ctrl.8="onDeleteLastTodo"
     />
     <button v-on:click="addNewTodo">Add</button>
   </div>
@@ -68,6 +69,10 @@ export default {
         const toMove = this.todos.splice(currentIndex, 1)[0];
         this.todos.splice(newIndex, 0, toMove);
       }
+    },
+    onDeleteLastTodo: function() {
+      console.log("delete");
+      this.todos.pop();
     }
   },
   components: {
