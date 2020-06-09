@@ -63,7 +63,7 @@ export default {
     },
     onMoveTodoDown: function(todo) {
       const currentIndex = this.todos.findIndex(t => t.id === todo.id);
-      if (currentIndex > 0) {
+      if (currentIndex < this.totalTodos - 1) {
         const newIndex = currentIndex + 1;
         const toMove = this.todos.splice(currentIndex, 1)[0];
         this.todos.splice(newIndex, 0, toMove);
