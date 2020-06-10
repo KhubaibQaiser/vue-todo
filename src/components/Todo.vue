@@ -1,6 +1,6 @@
 <template>
   <div id="todoApp">
-    <h1>{{this.totalTodos}} Todos:</h1>
+    <h1>{{ this.totalTodos }} Todos:</h1>
     <div>
       <TodoItem
         v-for="(todo, index) in todos"
@@ -26,36 +26,42 @@
 
 <script>
 import TodoItem from "./TodoItem.vue";
+import { db } from "../data/db";
 
 export default {
   data: function() {
     return {
       newTodo: "",
-      todos: [{ id: 0, title: "Wake-up" }],
-      nextTodoId: 1
+      todos: [],
+      nextTodoId: 1,
     };
+  },
+  firebase: {
+    // Exposed by vuefire plugin
+    todos: db.ref("todos"),
   },
   computed: {
     totalTodos: function() {
       return this.todos.length;
-    }
+    },
   },
   methods: {
     addNewTodo: function() {
       if (this.newTodo.length == 0) {
         return;
       }
-      this.todos.push({
+      // this.todos.push(this.newTodo);
+      this.$firebaseRefs.todos.push({
         id: this.nextTodoId++,
-        title: this.newTodo
+        title: this.newTodo,
       });
       this.newTodo = "";
     },
     onDeleteTodo: function(todo) {
-      this.todos = this.todos.filter(t => t.id !== todo.id);
+      this.$firebaseRefs.todos.child(todo[".key"]).remove();
     },
     onMoveTodoUp: function(todo) {
-      const currentIndex = this.todos.findIndex(t => t.id === todo.id);
+      const currentIndex = this.todos.findIndex((t) => t.id === todo.id);
       if (currentIndex > 0) {
         const newIndex = currentIndex - 1;
         const toMove = this.todos.splice(currentIndex, 1)[0];
@@ -63,7 +69,7 @@ export default {
       }
     },
     onMoveTodoDown: function(todo) {
-      const currentIndex = this.todos.findIndex(t => t.id === todo.id);
+      const currentIndex = this.todos.findIndex((t) => t.id === todo.id);
       if (currentIndex < this.totalTodos - 1) {
         const newIndex = currentIndex + 1;
         const toMove = this.todos.splice(currentIndex, 1)[0];
@@ -71,13 +77,12 @@ export default {
       }
     },
     onDeleteLastTodo: function() {
-      console.log("delete");
       this.todos.pop();
-    }
+    },
   },
   components: {
-    TodoItem
-  }
+    TodoItem,
+  },
 };
 </script>
 
