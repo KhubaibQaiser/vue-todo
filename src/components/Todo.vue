@@ -4,7 +4,7 @@
     <div>
       <TodoItem
         v-for="(todo, index) in todos"
-        v-bind:key="todo.id"
+        v-bind:key="todo['.key']"
         v-bind:todo="todo"
         v-bind:isFirst="index === 0"
         v-bind:isLast="index === totalTodos - 1"
@@ -33,7 +33,6 @@ export default {
     return {
       newTodo: "",
       todos: [],
-      nextTodoId: 1,
     };
   },
   firebase: {
@@ -52,7 +51,6 @@ export default {
       }
       // this.todos.push(this.newTodo);
       this.$firebaseRefs.todos.push({
-        id: this.nextTodoId++,
         title: this.newTodo,
       });
       this.newTodo = "";
