@@ -1,8 +1,8 @@
 import Vue from "vue";
 import App from "./App.vue";
-import { rtdbPlugin } from "vuefire";
+import { firestorePlugin } from "vuefire";
 
-Vue.use(rtdbPlugin);
+Vue.use(firestorePlugin);
 
 Vue.config.productionTip = false;
 

@@ -15,7 +15,7 @@
     </div>
     <input
       type="text"
-      v-model.trim="newTodo"
+      v-model="newTodo"
       style="margin-right: 10px;"
       v-on:keydown.enter="addNewTodo"
       v-on:keyup.ctrl.8.exact="onDeleteLastTodo"
@@ -35,9 +35,9 @@ export default {
       todos: [],
     };
   },
-  firebase: {
+  firestore: {
     // Exposed by vuefire plugin
-    todos: db.ref("todos"),
+    todos: db.collection("todos"),
   },
   computed: {
     totalTodos: function() {
@@ -49,14 +49,13 @@ export default {
       if (this.newTodo.length == 0) {
         return;
       }
-      // this.todos.push(this.newTodo);
-      this.$firebaseRefs.todos.push({
+      this.$firestoreRefs.todos.add({
         title: this.newTodo,
       });
       this.newTodo = "";
     },
     onDeleteTodo: function(todo) {
-      this.$firebaseRefs.todos.child(todo[".key"]).remove();
+      this.$firestoreRefs.todos.doc(todo.id).delete();
     },
     onMoveTodoUp: function(todo) {
       const currentIndex = this.todos.findIndex((t) => t.id === todo.id);

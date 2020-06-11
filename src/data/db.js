@@ -1,5 +1,5 @@
 import firebase from "firebase/app";
-import "firebase/database";
+import "firebase/firestore";
 
 export const db = firebase
   .initializeApp({
@@ -11,4 +11,8 @@ export const db = firebase
     messagingSenderId: "1060418056892",
     appId: "1:1060418056892:web:3b950c4f0fcd66a84516b9",
   })
-  .database();
+  .firestore();
+
+// Export types that exists in Firestore
+const { Timestamp, GeoPoint } = firebase.firestore;
+export { Timestamp, GeoPoint };
