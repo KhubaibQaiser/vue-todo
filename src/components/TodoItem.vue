@@ -2,14 +2,14 @@
   <div class="d-flex f-justify-center" style="margin-bottom: 10px">
     <div class="todo-title">{{ todo.title }}</div>
     <button v-on:click="deleteTodo(todo)">Delete</button>
-    <button v-if="!isFirst" v-on:click="moveUp(todo)">^</button>
+    <!-- <button v-if="!isFirst" v-on:click="moveUp(todo)">^</button>
     <button
       v-if="!isLast"
       v-on:click="moveDown(todo)"
       style="transform: rotateX(180deg);"
     >
       ^
-    </button>
+    </button> -->
   </div>
 </template>
 
